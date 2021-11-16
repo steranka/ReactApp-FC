@@ -25,7 +25,6 @@ function Page1() {
         <div className="Page1">
                 This is the Page1 component<br/>
                 appState = {JSON.stringify(appState)}<br/>
-                What is your name?
                 <WidgetUsingReactContext/>
         </div>
 

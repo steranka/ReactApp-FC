@@ -23,7 +23,7 @@ let simulatedStateData = {
 }
 
 function App() {
-    const [fsmState, setFsmState] = useState(FsmState.appShowData);
+    const [fsmState, setFsmState] = useState(FsmState.initial);
     const [loadingMessage, setLoadingMessage] = useState("Initializing...");
     const {appState, setState} = React.useContext(ReactContext);
 

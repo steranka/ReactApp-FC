@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import MyButton from "../basic-components/MyButton";
 import MyInput from "../basic-components/MyInput";
 import {ReactContext} from "../store/AppContext";
@@ -38,6 +38,7 @@ let numRenders = 0;
  */
 function WidgetUsingReactContext() {
     const {appState, setState}  = useContext(ReactContext);
+    let [buttonCount, setButtonCount] = useState(0);
     console.log('WidgetUsingReactContext #called = ' + ++numRenders + ' appState=' + JSON.stringify(appState));
 
     function getMyInput(){
@@ -47,7 +48,9 @@ function WidgetUsingReactContext() {
     }
 
     function handleClick(ev){
-        console.log(`Button ${ev.target.outerText} was clicked!  text is: ${getMyInput()}`);
+        buttonCount++;
+        console.log(`Button ${ev.target.outerText} was clicked ${buttonCount} times!  text is: ${getMyInput()}`);
+        setButtonCount(buttonCount);
     }
 
     function onChange(ev){
@@ -63,10 +66,15 @@ function WidgetUsingReactContext() {
     return (
         <div style={stylingObject.div}>
             WidgetUsingReactContext: This is WidgetUsingReactContext that has it's own style and passes that style into it's children.<br/>
+            Try typing into next field and the characters should be echoed.<br/>
             <MyInput id="myInput1" style={stylingObject.MyInput1} value={getMyInput()} onChange={onChange}/>
-            <input type='text' onChange={onChange} value={getMyInput()}/>
             <a href={'https://medium.com/technofunnel/4-ways-to-add-styles-to-react-component-37c2a2034e3e'}>See this link for details</a>
             <MyButton style={stylingObject.MyButton} onClick={handleClick}>Press MyButton</MyButton>
+            {buttonCount > 0 &&
+                <div>The button has been clicked {buttonCount} times.<br/>
+                Notice that when you click the button the React.Context value is shown!</div>
+
+            }
         </div>
     );
 }
