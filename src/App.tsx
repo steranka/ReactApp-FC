@@ -5,7 +5,7 @@ import Nav from './features/Nav';
 
 import Page1 from './features/Page1';
 import Page2 from './features/Page2';
-import AppContext, {ReactContext} from "./store/AppContext";
+import {ReactContext} from "./store/AppContext";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
 enum FsmState {
@@ -30,66 +30,56 @@ function App() {
     /* ComponentDidMount code */
     useEffect(() => {
         // Simulate a call to download the application state
+        setState(simulatedStateData);
+        setFsmState(FsmState.appInitialized);
 
-        if (fsmState === FsmState.initial) {
+        if (false && fsmState === FsmState.initial) {
             setTimeout(() => {
                 setFsmState(FsmState.appInitialized);
                 setLoadingMessage('Application initialized');
-                setTimeout(() => {
-                    setFsmState(FsmState.appShowData);
-                    console.log('******* setState to ' + JSON.stringify(simulatedStateData));
-                    setState(simulatedStateData);
-                }, 1250);
+                console.log('******* setState to ' + JSON.stringify(simulatedStateData));
+                setState(simulatedStateData);
             }, 2000);
-        } else {
-            console.log('****** Leaving state at ' + fsmState);
-            setState(simulatedStateData);
         }
-    }, []);
+    }, [appState, fsmState, setState]);
 
     useEffect(() => {
         console.log('State changed to ' + fsmState + ', appState=' + JSON.stringify(appState));
-    }, [fsmState])
+    }, [fsmState, appState])
 
     // console.log('AppContext = ', AppContext);
     // console.log('ReactContext = ', ReactContext);
 
-    let rtn = <div></div>;
-    if (fsmState === FsmState.initial || fsmState === FsmState.loading
-        || fsmState === FsmState.appInitialized) {
+    let rtn = <div>wtf. Probably a bug in the program. Added a new state that isn't handled.</div>;
+    if (fsmState === FsmState.initial || fsmState === FsmState.loading) {
         rtn = (<div>{loadingMessage}</div>);
     } else if (fsmState === FsmState.appFailed) {
         rtn = (<div>Sorry dude, your app failed!</div>);
-    } else if (fsmState === FsmState.appShowData) {
-        console.log('Finally rendering App pages appState' + JSON.stringify(appState));
+    } else if (fsmState === FsmState.appInitialized || fsmState === FsmState.appShowData) {
+        console.log('Finally rendering App pages appState with ' + JSON.stringify(appState));
         rtn = (
-            <AppContext>
-                <Router>
-                    <Nav/>
-                    <Switch>
-                        <Route exact path={"/"}>
-                            <Home/>
-                        </Route>
-                        <Route path={"/page1"}>
-                            <div className="Page1">
-                                <Page1/>
-                            </div>
-                        </Route>
-                        <Route path={"/page2"}>
-                            <div className="Page2">
-                                <Page2/>
-                            </div>
-                        </Route>
+            <Router>
+                <Nav/>
+                <Switch>
+                    <Route exact path={"/"}>
+                        <Home/>
+                    </Route>
+                    <Route path={"/page1"}>
+                        <div className="Page1">
+                            <Page1/>
+                        </div>
+                    </Route>
+                    <Route path={"/page2"}>
+                        <div className="Page2">
+                            <Page2/>
+                        </div>
+                    </Route>
 
-                    </Switch>
-                </Router>
-            </AppContext>
-        );
-    } else {
-        rtn = (
-            <div>wtf. Probably a bug in the program. Added a new state that isn't handled.</div>
+                </Switch>
+            </Router>
         );
     }
+
     return rtn;
 }
 

@@ -5,12 +5,12 @@ let ReactContext = React.createContext();
 export { ReactContext };
 
 function AppContext(props) {
-    let [appState, setAppState] = useState({});
+    let [appState, setState] = useState({});
 
-    function setState(args){
-        console.log('AppContext.setState with ' + JSON.stringify(args));
-        setAppState(args);
-    }
+    // function setState(args){
+    //     console.log('AppContext.setState with ' + JSON.stringify(args));
+    //     setAppState(args);
+    // }
 
 
     return (
