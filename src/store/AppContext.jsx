@@ -12,7 +12,6 @@ function AppContext(props) {
     //     setAppState(args);
     // }
 
-
     return (
         <ReactContext.Provider value={{appState, setState}}>
             {props.children}
