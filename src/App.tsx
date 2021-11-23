@@ -17,7 +17,7 @@ enum FsmState {
 }
 
 let simulatedStateData = {
-    widgetState: {
+    widgetState1: {
         myInput1: '(init)'
     }
 }
@@ -30,6 +30,7 @@ function App() {
     /* ComponentDidMount code */
     useEffect(() => {
         // Simulate a call to download the application state
+        console.log('App.useEffect.<init>: initializing simulatedState ' + JSON.stringify(simulatedStateData));
         setState(simulatedStateData);
         setFsmState(FsmState.appInitialized);
 
@@ -41,10 +42,10 @@ function App() {
                 setState(simulatedStateData);
             }, 2000);
         }
-    }, [appState, fsmState, setState]);
+    }, []);
 
     useEffect(() => {
-        console.log('State changed to ' + fsmState + ', appState=' + JSON.stringify(appState));
+        console.log('App.useEffect[fsmState]: State changed to ' + fsmState + ', appState=' + JSON.stringify(appState));
     }, [fsmState, appState])
 
     // console.log('AppContext = ', AppContext);

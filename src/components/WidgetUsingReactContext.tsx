@@ -39,14 +39,13 @@ let numRenders = 0;
 function WidgetUsingReactContext() {
     const {appState, setState} = useContext(ReactContext);
     let [buttonCount, setButtonCount] = useState(0);
-    console.log('WidgetUsingReactContext #called = ' + ++numRenders + ' appState=' + JSON.stringify(appState));
 
     useEffect(() => {
-        console.log('WidgetUsingReactContext: useEffect for appState.widgetState' + JSON.stringify(appState));
+        console.log('WidgetUsingReactContext: useEffect for appState.widgetState1' + JSON.stringify(appState));
     }, [appState])
 
     function getMyInput() {
-        let rtn = (appState && appState.widgetState && appState.widgetState.myInput1) || "";
+        let rtn = (appState && appState.widgetState1 && appState.widgetState1.myInput1) || "";
         console.log('getMyInput returns ' + rtn + ' for state=' + JSON.stringify(appState));
         return rtn;
     }
@@ -58,35 +57,31 @@ function WidgetUsingReactContext() {
     }
 
     function onChange(ev) {
-        console.log('ev is ', ev);
-        if (!appState.widgetState) {
-            appState.widgetState = {};
+        console.log('WidgetUsingReactContext.onChange ev is ', ev.target.value);
+        if (!appState.widgetState1) {
+            appState.widgetState1 = {};
         }
-        appState.widgetState.myInput1 = ev.target.value;
+        appState.widgetState1.myInput1 = ev.target.value;
         setState(appState);
     }
 
 
+    console.log('WidgetUsingReactContext.render #called = ' + ++numRenders + ' appState=' + JSON.stringify(appState));
     return (
-        <ReactContext.Consumer>
-            {({appState}) => {
-                return (
-                <div style={stylingObject.div}>
-                WidgetUsingReactContext: This is WidgetUsingReactContext that has it's own style and passes that style into it's children.<br/>
-                Try typing into next field and the characters should be echoed.<br/>
-                <MyInput id="myInput1" style={stylingObject.MyInput1} value={getMyInput()} onChange={onChange}/>
-                <a href={'https://medium.com/technofunnel/4-ways-to-add-styles-to-react-component-37c2a2034e3e'}>See this link for details</a>
-                <MyButton style={stylingObject.MyButton} onClick={handleClick}>Press MyButton</MyButton>
+        <div style={stylingObject.div}>
+            WidgetUsingReactContext: This is WidgetUsingReactContext that has it's own style and passes that style into it's
+            children.<br/>
+            Try typing into next field and the characters should be echoed.<br/>
+            <MyInput id="myInput1" style={stylingObject.MyInput1} value={getMyInput()} onChange={onChange}/>
+            <a href={'https://medium.com/technofunnel/4-ways-to-add-styles-to-react-component-37c2a2034e3e'}>See this link for
+                details</a>
+            <MyButton style={stylingObject.MyButton} onClick={handleClick}>Press MyButton</MyButton>
             {buttonCount > 0 &&
-                <div>The button has been clicked {buttonCount} times.<br/>
-                Notice that when you click the button the React.Context value is shown!</div>
+            <div>The button has been clicked {buttonCount} times.<br/>
+              Notice that when you click the button the React.Context value is shown!</div>
 
             }
-                </div>
-
-                );
-            }}
-        </ReactContext.Consumer>
+        </div>
     );
 }
 
