@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import './App.css';
 import Home from './features/Home';
 import Nav from './features/Nav';
@@ -6,7 +6,7 @@ import Nav from './features/Nav';
 import Page1 from './features/Page1';
 import Page2 from './features/Page2';
 import Simple1 from './components/Simple1';
-import {ReactContext} from "./store/AppContext";
+import AppContext, {ReactContext} from "./store/AppContext";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
 enum FsmState {
@@ -24,13 +24,15 @@ let simulatedStateData = {
 }
 
 function App() {
-    const [appState, setState] = useState(simulatedStateData);
+    const {appState, setState} = useContext(ReactContext);
+    useEffect(()=>{
+        console.log('App.useEffect is initializing state to ' + JSON.stringify(simulatedStateData));
+        setState(simulatedStateData);
+    },[]);
 
     console.log('App.render with appState=' + JSON.stringify(appState));
     let rtn = (
-        <ReactContext.Provider value={{appState, setState}}>
-            <Simple1/>
-        </ReactContext.Provider>
+        <Simple1/>
     );
 
     return rtn;

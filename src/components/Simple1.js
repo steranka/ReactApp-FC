@@ -11,7 +11,7 @@ function Simple1() {
 
     return (
         <div>
-            Simple1 appState={JSON.stringify(appState)}
+            Simple1 appState={JSON.stringify(appState)}<br/>
             <button onClick={changeState}>Change State</button>
         </div>
     );
