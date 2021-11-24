@@ -46,23 +46,22 @@ function WidgetUsingReactContext() {
 
     function getMyInput() {
         let rtn = (appState && appState.widgetState1 && appState.widgetState1.myInput1) || "";
-        console.log('getMyInput returns ' + rtn + ' for state=' + JSON.stringify(appState));
+        console.log('WidgetUsingReactContext.getMyInput returns "' + rtn + '" for state=' + JSON.stringify(appState));
         return rtn;
     }
 
     function handleClick(ev) {
         buttonCount++;
-        console.log(`Button ${ev.target.outerText} was clicked ${buttonCount} times!  text is: ${getMyInput()}`);
+        console.log(`WidgetUsingReactContext.handleClick: ${buttonCount} times!  text is: ${getMyInput()}`);
         setButtonCount(buttonCount);
     }
 
-    function onChange(ev) {
-        console.log('WidgetUsingReactContext.onChange ev is ', ev.target.value);
+    function onMyInput1Change(ev) {
         if (!appState.widgetState1) {
             appState.widgetState1 = {};
         }
         appState.widgetState1.myInput1 = ev.target.value;
-        setState(appState);
+        setState({...appState});
     }
 
 
@@ -72,14 +71,14 @@ function WidgetUsingReactContext() {
             WidgetUsingReactContext: This is WidgetUsingReactContext that has it's own style and passes that style into it's
             children.<br/>
             Try typing into next field and the characters should be echoed.<br/>
-            <MyInput id="myInput1" style={stylingObject.MyInput1} value={getMyInput()} onChange={onChange}/>
+            <MyInput id="myInput1" style={stylingObject.MyInput1} value={getMyInput()} onChange={onMyInput1Change}/>
             <a href={'https://medium.com/technofunnel/4-ways-to-add-styles-to-react-component-37c2a2034e3e'}>See this link for
                 details</a>
             <MyButton style={stylingObject.MyButton} onClick={handleClick}>Press MyButton</MyButton>
             {buttonCount > 0 &&
             <div>The button has been clicked {buttonCount} times.<br/>
-              Notice that when you click the button the React.Context value is shown!</div>
-
+              Notice that when you click the button the React.Context value is shown!
+            </div>
             }
         </div>
     );

@@ -21,6 +21,7 @@ let simulatedStateData = {
         myInput1: '(init)'
     }
 }
+let lastFsmState;
 
 function App() {
     const [fsmState, setFsmState] = useState(FsmState.initial);
@@ -30,34 +31,40 @@ function App() {
     /* ComponentDidMount code */
     useEffect(() => {
         // Simulate a call to download the application state
-        console.log('App.useEffect.<init>: initializing simulatedState ' + JSON.stringify(simulatedStateData));
-        setState(simulatedStateData);
-        setFsmState(FsmState.appInitialized);
-
-        if (false && fsmState === FsmState.initial) {
+        if (fsmState === FsmState.initial) {
+            lastFsmState = fsmState;
             setTimeout(() => {
                 setFsmState(FsmState.appInitialized);
                 setLoadingMessage('Application initialized');
-                console.log('******* setState to ' + JSON.stringify(simulatedStateData));
-                setState(simulatedStateData);
+                setTimeout(() => {
+                    setFsmState(FsmState.appShowData);
+                    console.log('******* setState to ' + JSON.stringify(simulatedStateData));
+                    setState(simulatedStateData);
+                }, 1250);
             }, 2000);
+        } else {
+            console.log('App.useEffect[fsmState]  fsmState=' + fsmState);
         }
-    }, []);
+
+    }, [fsmState,setState, setFsmState]);
+
 
     useEffect(() => {
-        console.log('App.useEffect[fsmState]: State changed to ' + fsmState + ', appState=' + JSON.stringify(appState));
+        console.log('App.useEffect[fsmState]: fsmState changed from ' + lastFsmState + ' to ' + fsmState + ',' +
+            ' ,appState=' + JSON.stringify(appState));
+        lastFsmState = fsmState;
     }, [fsmState, appState])
 
     // console.log('AppContext = ', AppContext);
     // console.log('ReactContext = ', ReactContext);
 
-    let rtn = <div>wtf. Probably a bug in the program. Added a new state that isn't handled.</div>;
-    if (fsmState === FsmState.initial || fsmState === FsmState.loading) {
+    let rtn = <div><b>ERROR:</b>Probably a bug in the program. Added a new state that isn't handled.</div>;
+    if (fsmState === FsmState.initial || fsmState === FsmState.loading || fsmState === FsmState.appInitialized) {
         rtn = (<div>{loadingMessage}</div>);
     } else if (fsmState === FsmState.appFailed) {
         rtn = (<div>Sorry dude, your app failed!</div>);
-    } else if (fsmState === FsmState.appInitialized || fsmState === FsmState.appShowData) {
-        console.log('Finally rendering App pages appState with ' + JSON.stringify(appState));
+    } else if (fsmState === FsmState.appShowData) {
+        console.log('App.render appState ' + JSON.stringify(appState));
         rtn = (
             <Router>
                 <Nav/>
