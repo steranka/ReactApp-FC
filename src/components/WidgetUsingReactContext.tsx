@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import MyButton from "../basic-components/MyButton";
 import MyInput from "../basic-components/MyInput";
 import {ReactContext} from "../store/AppContext";
@@ -29,8 +29,6 @@ let stylingObject = {
     }
 };
 
-let numRenders = 0;
-
 /**
  * An Component that uses styled-components to style the component and pass styling information
  * to sub-components.  Each sub-
@@ -40,13 +38,13 @@ function WidgetUsingReactContext() {
     const {appState, setState} = useContext(ReactContext);
     let [buttonCount, setButtonCount] = useState(0);
 
-    useEffect(() => {
-        console.log('WidgetUsingReactContext: useEffect for appState.widgetState1' + JSON.stringify(appState));
-    }, [appState])
+    // useEffect(() => {
+    //     console.log('WidgetUsingReactContext: useEffect for appState=' + JSON.stringify(appState));
+    // }, [appState])
 
     function getMyInput() {
         let rtn = (appState && appState.widgetState1 && appState.widgetState1.myInput1) || "";
-        console.log('WidgetUsingReactContext.getMyInput returns "' + rtn + '" for state=' + JSON.stringify(appState));
+        console.log('WidgetUsingReactContext.getMyInput returns "' + rtn + '" for appState=' + JSON.stringify(appState));
         return rtn;
     }
 
@@ -65,7 +63,7 @@ function WidgetUsingReactContext() {
     }
 
 
-    console.log('WidgetUsingReactContext.render #called = ' + ++numRenders + ' appState=' + JSON.stringify(appState));
+    // console.log('WidgetUsingReactContext.render #called = ' + ++numRenders + ' appState=' + JSON.stringify(appState));
     return (
         <div style={stylingObject.div}>
             WidgetUsingReactContext: This is WidgetUsingReactContext that has it's own style and passes that style into it's

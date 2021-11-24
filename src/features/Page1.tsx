@@ -3,17 +3,12 @@ import WidgetUsingReactContext from "../components/WidgetUsingReactContext";
 import {ReactContext} from "../store/AppContext";
 import MyButton from "../basic-components/MyButton";
 
-let renderCount = 1;
-
 function Page1() {
     let [myInput1, setMyInput1] = useState("(init)");
     const {appState} = React.useContext(ReactContext);
 
-    console.log('Page1.render myInput=' + myInput1 + ', renderCount=' + ++renderCount + ', appState=' + JSON.stringify(appState));
-
-
     function textChanged(ev) {
-        console.log('Text changed to ' + ev.target.value);
+        console.log('Page1.textChanged to ' + ev.target.value);
         setMyInput1(ev.target.value);
     }
 

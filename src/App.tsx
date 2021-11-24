@@ -53,7 +53,7 @@ function App() {
         console.log('App.useEffect[fsmState]: fsmState changed from ' + lastFsmState + ' to ' + fsmState + ',' +
             ' ,appState=' + JSON.stringify(appState));
         lastFsmState = fsmState;
-    }, [fsmState, appState])
+    }, [fsmState])
 
     // console.log('AppContext = ', AppContext);
     // console.log('ReactContext = ', ReactContext);
